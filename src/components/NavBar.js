@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const location = useLocation();
@@ -40,7 +40,7 @@ const Navbar = () => {
         </li>
         <li>
           <a 
-            href="#events" 
+            href="events" 
             onClick={(e) => handleNavigation(e, 'events')}
           >
             Events

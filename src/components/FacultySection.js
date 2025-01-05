@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { client } from '../lib/sanity';
 
 const facultyData = [
   
