@@ -8,22 +8,22 @@ const EventsSection = () => {
 
     // Carousel initialization logic
     const images = [
-      { src: 'assets/events/5.jpg', title: 'Karthigai Deepam' },
-      { src: 'assets/events/1.jpg', title: 'Onam Fest' },
-      { src: 'assets/events/2.jpg', title: 'Aadukalam 24' },
-      { src: 'assets/events/3.jpg', title: 'Therla' },
-      { src: 'assets/events/6.jpg', title: 'Karthigai Deepam' },
-      { src: 'assets/events/7.jpeg', title: 'Onam 24' },
-      { src: 'assets/events/8.jpg', title: 'Pongal Celebration' },
-      { src: 'assets/events/9.jpg', title: 'Onam 23' },
-      { src: 'assets/events/10.jpg', title: 'Diwali 2024' },
-      { src: 'assets/events/11.jpg', title: 'OpenMic Event' },
-      { src: 'assets/events/4.jpg', title: 'Karthigai Deepam' },
-      { src: 'assets/events/12.jpg', title: 'Texus DJ Night' },
-      { src: 'assets/events/13.jpg', title: 'Diwali 2023' },
-      { src: 'assets/events/14.jpg', title: 'Teachers Day' },
-      { src: 'assets/events/15.jpg', title: 'Navaratri Celebration' },
-      { src: 'assets/events/16.jpg', title: 'Aadukalam 24' }
+      { src: './assets/events/5.jpg', title: 'Karthigai Deepam' },
+      { src: './assets/events/1.jpg', title: 'Onam Fest' },
+      { src: './assets/events/2.jpg', title: 'Aadukalam 24' },
+      { src: './assets/events/3.jpg', title: 'Therla' },
+      { src: './assets/events/6.jpg', title: 'Karthigai Deepam' },
+      { src: './assets/events/7.jpeg', title: 'Onam 24' },
+      { src: './assets/events/8.jpg', title: 'Pongal Celebration' },
+      { src: './assets/events/9.jpg', title: 'Onam 23' },
+      { src: './assets/events/10.jpg', title: 'Diwali 2024' },
+      { src: './assets/events/11.jpg', title: 'OpenMic Event' },
+      { src: './assets/events/4.jpg', title: 'Karthigai Deepam' },
+      { src: './assets/events/12.jpg', title: 'Texus DJ Night' },
+      { src: './assets/events/13.jpg', title: 'Diwali 2023' },
+      { src: './assets/events/14.jpg', title: 'Teachers Day' },
+      { src: './assets/events/15.jpg', title: 'Navaratri Celebration' },
+      { src: './assets/events/16.jpg', title: 'Aadukalam 24' }
     ];
     
     const carousel = document.querySelector('.carousel-inner');

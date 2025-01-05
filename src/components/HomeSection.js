@@ -10,7 +10,7 @@ const HomeSection = () => {
             <div className="hanging-image" key={index}>
               <div className="rope"></div>
               <div className="frame">
-                <img src={`assets/events/${eventId}.jpg`} alt="Event" />
+                <img src={`./assets/events/${eventId}.jpg`} alt="Event" />
               </div>
             </div>
           ))}
@@ -21,7 +21,7 @@ const HomeSection = () => {
             <h2>SRMIST (E&T) Ramapuram</h2>
           </div>
           <div className="hero-logo-container">
-            <img src="assets/logos/logo2.png" alt="SRM Logo" className="hero-logo" />
+            <img src="./assets/logos/logo2.png" alt="SRM Logo" className="hero-logo" />
           </div>
           <div className="quote-container">
             <p className="quote">"The Heart of Campus"</p>
