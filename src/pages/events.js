@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { client } from '../lib/sanity';
+import { useNavigate } from 'react-router-dom';
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch events from Sanity
   useEffect(() => {
@@ -24,6 +26,10 @@ export default function EventsPage() {
     client.fetch(query).then((data) => setEvents(data));
   }, []);
 
+  const handleRegister = (slug) => {
+    navigate(`/register/${slug}`);
+  };
+
   return (
     <div>
       <h1>Upcoming Events</h1>
@@ -34,7 +40,7 @@ export default function EventsPage() {
           <p>Start Date: {new Date(event.startDate).toLocaleString()}</p>
           <p>Venue: {event.venue}</p>
           <p>Registration Required: {event.registrationRequired ? 'Yes' : 'No'}</p>
-          <button onClick={() => window.location.href = `/register/${event.slug.current}`}>
+          <button onClick={() => handleRegister(event.slug.current)}>
             Register
           </button>
         </div>
