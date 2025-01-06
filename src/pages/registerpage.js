@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { client } from '../lib/sanity'; // Import the Sanity client
+import { client } from '../lib/sanity';
 
-const RegisterPage = () => {
-  const { slug } = useParams(); // Get the slug from the URL
+export default function RegistrationPage() {
+  const { slug } = useParams();
   const [event, setEvent] = useState(null);
+  const [formData, setFormData] = useState({
+    studentName: '',
+    email: '',
+    registrationNumber: '',
+    department: '',
+    phoneNumber: '',
+  });
+  const [status, setStatus] = useState('');
 
-  // Fetch event details based on the slug
   useEffect(() => {
-    if (!slug) return;
-
     const query = `*[_type == "event" && slug.current == $slug][0]{
-      _id,
       title,
+      description,
       startDate,
       endDate,
-      description,
       venue,
       registrationRequired,
       registrationDeadline,
@@ -27,35 +31,37 @@ const RegisterPage = () => {
     client.fetch(query, { slug }).then((data) => setEvent(data));
   }, [slug]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus('Submitting...');
 
-    const formData = new FormData(e.target);
-
-    // Prepare registration data according to your schema
-    const registrationData = {
-      _type: 'registration', // Document type
-      event: {
-        _type: 'reference',
-        _ref: event._id, // Reference to the event
-      },
-      studentName: formData.get('studentName'),
-      email: formData.get('email'),
-      registrationNumber: formData.get('registrationNumber'),
-      department: formData.get('department'),
-      phoneNumber: formData.get('phoneNumber'),
-      registrationDate: new Date().toISOString(), // Automatically set the registration date
-      paymentStatus: 'pending', // Default payment status
-      paymentId: formData.get('paymentId') || '', // Optional payment ID
-    };
-
-    // Submit registration data to Sanity
     try {
-      await client.create(registrationData);
-      alert('Registration successful!');
+      const response = await fetch('http://localhost:3001/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, eventTitle: event.title, registrationDate: new Date() }),
+      });
+
+      if (response.ok) {
+        setStatus('Registration successful!');
+        setFormData({
+          studentName: '',
+          email: '',
+          registrationNumber: '',
+          department: '',
+          phoneNumber: '',
+        });
+      } else {
+        const error = await response.text();
+        setStatus(`Failed: ${error}`);
+      }
     } catch (error) {
-        console.error('Registration failed:', error.message);
-        alert(`Registration failed: ${error.message}`);
+      setStatus('Failed: Unable to register. Try again later.');
     }
   };
 
@@ -66,37 +72,50 @@ const RegisterPage = () => {
   return (
     <div>
       <h1>Register for {event.title}</h1>
-      <h1>Register for {event.title}</h1>
-      <p>{event.description}</p>
-      <p>Start Date: {new Date(event.startDate).toLocaleString()}</p>
-      <p>Venue: {event.venue}</p>
-      <p>Registration Deadline: {new Date(event.registrationDeadline).toLocaleString()}</p>
-      <p>Fee: {event.fee ? `$${event.fee}` : 'Free'}</p>
-      <p>Max Participants: {event.maxParticipants}</p>
-
       <form onSubmit={handleSubmit}>
-        <label htmlFor="studentName">Student Name:</label>
-        <input type="text" id="studentName" name="studentName" required />
-
-        <label htmlFor="email">Email:</label>
-        <input type="email" id="email" name="email" required />
-
-        <label htmlFor="registrationNumber">Registration Number:</label>
-        <input type="text" id="registrationNumber" name="registrationNumber" required />
-
-        <label htmlFor="department">Department:</label>
-        <input type="text" id="department" name="department" required />
-
-        <label htmlFor="phoneNumber">Phone Number:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" required />
-
-        <label htmlFor="paymentId">Payment ID (optional):</label>
-        <input type="text" id="paymentId" name="paymentId" />
-
-        <button type="submit">Submit Registration</button>
+        <input
+          type="text"
+          name="studentName"
+          placeholder="Student Name"
+          value={formData.studentName}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="registrationNumber"
+          placeholder="Registration Number"
+          value={formData.registrationNumber}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="department"
+          placeholder="Department"
+          value={formData.department}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="phoneNumber"
+          placeholder="Phone Number"
+          value={formData.phoneNumber}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Register</button>
       </form>
+      <p>{status}</p>
     </div>
   );
-};
-
-export default RegisterPage;
+}

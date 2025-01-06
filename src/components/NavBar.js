@@ -40,8 +40,8 @@ const Navbar = () => {
         </li>
         <li>
           <a 
-            href="events" 
-            onClick={(e) => handleNavigation(e, 'events')}
+            href="/events" 
+            // onClick={(e) => handleNavigation(e, 'events')}
           >
             Events
           </a>
